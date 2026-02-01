@@ -42,23 +42,23 @@ const App: React.FC = () => {
   }, [config, overpayments, recurringAmount]);
 
   return (
-    <div className="min-h-screen pb-12">
+    <div className="min-h-screen pb-safe-bottom bg-slate-50">
       {/* Header */}
-      <header className="bg-white border-b border-slate-200 sticky top-0 z-20">
+      <header className="bg-white border-b border-slate-200 sticky top-0 z-30 shadow-sm safe-top">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
           <div className="flex items-center gap-2">
-            <div className="bg-blue-600 text-white p-2 rounded-lg">
+            <div className="bg-blue-600 text-white p-2 rounded-xl shadow-blue-200">
               <Wallet className="w-5 h-5" />
             </div>
-            <h1 className="text-xl font-bold text-slate-800 tracking-tight">Kalkulator Nadpłat</h1>
+            <h1 className="text-xl font-bold text-slate-800 tracking-tight">Kalkulator</h1>
           </div>
-          <div className="text-sm text-slate-500 hidden sm:block">
-            Symulacja oparta na danych z Excel
+          <div className="text-xs sm:text-sm text-slate-500 font-medium">
+            Symulacja
           </div>
         </div>
       </header>
 
-      <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-8">
+      <main className="max-w-7xl mx-auto px-3 sm:px-6 lg:px-8 py-4 sm:py-8 space-y-4 sm:space-y-8">
         
         {/* Top Input Section */}
         <section>
@@ -71,28 +71,28 @@ const App: React.FC = () => {
         </section>
 
         {/* Dashboard Grid */}
-        <section className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+        <section className="grid grid-cols-1 lg:grid-cols-3 gap-4 sm:gap-8">
           {/* Left Column: Stats & Charts */}
-          <div className="lg:col-span-2 space-y-6">
+          <div className="lg:col-span-2 space-y-4 sm:space-y-6">
             
-            {/* Summary Cards */}
-            <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+            {/* Summary Cards - Grid for mobile optimized */}
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 sm:gap-4">
               <InfoCard 
                 title="Suma Odsetek" 
                 value={formatCurrency(simulation.totalInterest)} 
-                subtitle={`Koszt całkowity: ${formatCurrency(simulation.totalCost)}`}
+                subtitle={`Koszt: ${formatCurrency(simulation.totalCost)}`}
                 color="blue"
               />
               <InfoCard 
-                title="Data Końcowa" 
+                title="Koniec Kredytu" 
                 value={formatDate(simulation.endDate)}
-                subtitle={`Skrócono o ${simulation.monthsSaved} msc`}
+                subtitle={`Szybciej o ${simulation.monthsSaved} msc`}
                 color="slate"
               />
               <InfoCard 
-                title="Zaoszczędzono" 
+                title="Zyskujesz" 
                 value={formatCurrency(simulation.interestSaved)}
-                subtitle="Dzięki nadpłatom"
+                subtitle="Oszczędność na odsetkach"
                 color="green"
                 highlight
               />
@@ -115,7 +115,7 @@ const App: React.FC = () => {
         </section>
 
         {/* Bottom Section: Table */}
-        <section>
+        <section className="pb-8">
           <ScheduleTable data={simulation} />
         </section>
 
