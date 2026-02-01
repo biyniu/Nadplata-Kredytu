@@ -1,0 +1,5 @@
+{
+  "name": "Symulator Nadpłat Kredytu",
+  "description": "Aplikacja do symulacji nadpłat kredytu hipotecznego lub gotówkowego. Pozwala obliczyć oszczędności na odsetkach i skrócenie okresu kredytowania.",
+  "requestFramePermissions": []
+}
