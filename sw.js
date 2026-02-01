@@ -1,5 +1,6 @@
-const CACHE_NAME = 'loan-calc-v2';
-// We cache only the shell. Other requests are cached at runtime.
+const CACHE_NAME = 'loan-calc-v3';
+
+// Precache the root explicitly
 const PRECACHE_ASSETS = [
   './',
   './index.html',
@@ -31,22 +32,27 @@ self.addEventListener('activate', (event) => {
 });
 
 self.addEventListener('fetch', (event) => {
-  // Strategy: Network First, fall back to Cache
-  // This is safer for development and dynamic environments to avoid 404s on stale assets
+  // Navigation request (loading the page)
   if (event.request.mode === 'navigate') {
     event.respondWith(
       fetch(event.request)
         .catch(() => {
-          return caches.match('./index.html');
+          // If network fails, return the root index from cache
+          // Using './' matches the start_url: '.' in manifest
+          return caches.match('./') || caches.match('./index.html');
         })
     );
     return;
   }
 
+  // Static assets
   event.respondWith(
-    fetch(event.request)
-      .then((response) => {
-        // Clone the response to cache it
+    caches.match(event.request).then((cachedResponse) => {
+      if (cachedResponse) {
+        return cachedResponse;
+      }
+      return fetch(event.request).then((response) => {
+        // Cache valid responses for next time
         if (!response || response.status !== 200 || response.type !== 'basic') {
           return response;
         }
@@ -55,9 +61,7 @@ self.addEventListener('fetch', (event) => {
           cache.put(event.request, responseToCache);
         });
         return response;
-      })
-      .catch(() => {
-        return caches.match(event.request);
-      })
+      });
+    })
   );
 });

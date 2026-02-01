@@ -1,12 +1,12 @@
 {
   "name": "Kalkulator Nadpłat Kredytu",
   "short_name": "Nadpłaty",
-  "start_url": "./index.html",
+  "start_url": ".",
   "display": "standalone",
   "background_color": "#f8fafc",
   "theme_color": "#2563eb",
   "orientation": "portrait",
-  "scope": "./",
+  "scope": ".",
   "icons": [
     {
       "src": "https://cdn-icons-png.flaticon.com/512/2830/2830284.png",
